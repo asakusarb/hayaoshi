@@ -1,53 +1,50 @@
-// global variables
-waiting = false;
-entrying = true;
-
 class Player {
-    constructor(index, dom) {
+    constructor(index, game) {
+        const no = index + 1;
+
         this.index = index;
-        this.dom = dom;
-        this.name = `Player ${index + 1}`;
+        this.game = game;
+        this.dom = document.getElementById('p' + no);
+        this.name = `Player ${no}`;
 
         if (!this.gamepad) {
             this.dom.style.cssText = "background-color: gray;";
         }
-
-        let img = this.dom.getElementsByTagName("img")[0];
-        img.src = "https://avatars.githubusercontent.com/admin";
     }
 
     get gamepad() {
         return navigator.getGamepads()[this.index];
     }
 
+    get img() {
+        return this.dom.getElementsByTagName("img")[0];
+    }
+
+    get buttonPressed() {
+        return this.gamepad.buttons.map(b => b.pressed).indexOf(true) > -1;
+    }
+
     updateName(name) {
         this.name = name;
-        let img = this.dom.getElementsByTagName("img")[0];
-        img.src = `https://avatars.githubusercontent.com/${name||'admin'}`;
+        this.img.src = `https://avatars.githubusercontent.com/${name||'admin'}`;
     }
 
     wait() {
-        let that = this;
+        const player = this;
 
         function waitLoop() {
-            if (!that.gamepad) {
+            if (!player.gamepad || !player.dom) {
                 // Do nothing
-            } else if (that.gamepad.buttons.map(b => b.pressed).indexOf(true) > -1) {
-                if (waiting) {
-                    waiting = false;
-                    that.dom.style.cssText = "background-color: red";
-                    document.getElementById("msgbox").innerHTML = `はい ${that.name} さん早かった`;
-                }
+            } else if (player.buttonPressed && player.game.waiting) {
+                player.game.waiting = false;
+                player.dom.style.cssText = "background-color: red";
+                document.getElementById("msgbox").innerHTML = `はい ${player.name} さん早かった`;
             } else {
-                if (that.dom) {
-                    that.dom.style.cssText = "";
-                }
+                player.dom.style.cssText = "";
             }
 
-            if (waiting) {
-                return requestAnimationFrame(waitLoop);
-            } else {
-                return null;
+            if (player.game.waiting) {
+                requestAnimationFrame(waitLoop);
             }
         }
 
@@ -55,23 +52,19 @@ class Player {
     }
 
     entry() {
-        let that = this;
+        const player = this;
 
         function entryLoop() {
-            if (!that.gamepad) {
+            if (!player.gamepad || !player.dom) {
                 // Do nothing
-            } else if (that.gamepad.buttons.map(b => b.pressed).indexOf(true) > -1) {
-                that.dom.style.cssText = "background-color: yellow";
+            } else if (player.buttonPressed) {
+                player.dom.style.cssText = "background-color: yellow";
             } else {
-                if (that.dom) {
-                    that.dom.style.cssText = "";
-                }
+                player.dom.style.cssText = "";
             }
 
-            if (entrying) {
-                return requestAnimationFrame(entryLoop);
-            } else {
-                return null;
+            if (player.game.entrying) {
+                requestAnimationFrame(entryLoop);
             }
         }
 
@@ -79,26 +72,29 @@ class Player {
      }
 }
 
-let players = ["p1", "p2", "p3", "p4"].map((p, index) => {
-    return new Player(index, document.getElementById(p));
-});
+class Game {
+    constructor() {
+        this.players = [0, 1, 2, 3].map(i => new Player(i, this));
+        this.entry();
+    }
 
-function entry() {
-    entrying = true;
-    waiting = false;
-    document.getElementById("msgbox").innerHTML = "エントリー中";
-    players.forEach(p => p.entry());
+    entry() {
+        this.waiting = false;
+        this.entrying = true;
+        document.getElementById("msgbox").innerHTML = "エントリー中";
+        this.players.forEach(p => p.entry());
+    }
+
+    wait() {
+        this.waiting = true;
+        this.entrying = false;
+        document.getElementById("msgbox").innerHTML = "ボタンを押してください";
+        this.players.forEach(p => p.wait());
+    }
+
+    changeName(i, input) {
+        this.players[i].updateName(input.value);
+    }
 }
 
-function wait() {
-    entrying = false;
-    waiting = true;
-    document.getElementById("msgbox").innerHTML = "ボタンを押してください";
-    players.forEach(p => p.wait());
-}
-
-function changeName(i, input) {
-    players[i].updateName(input.value);
-}
-
-entry();
+game = new Game();

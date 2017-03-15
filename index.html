@@ -8,27 +8,27 @@
         <div class="main">
             <div id="players">
                 <div class="player" id="p1">
-                    <img></img>
-                    gh: <input type="text" size="15" onchange="changeName(0, this)"></input>
+                    <img src = "https://avatars.githubusercontent.com/admin"></img>
+                    gh: <input type="text" size="15" onchange="game.changeName(0, this)"></input>
                 </div>
                 <div class="player" id="p2">
-                    <img></img>
-                    gh: <input type="text" size="15" onchange="changeName(1, this)"></input>
+                    <img src = "https://avatars.githubusercontent.com/admin"></img>
+                    gh: <input type="text" size="15" onchange="game.changeName(1, this)"></input>
                 </div>
                 <div class="player" id="p3">
-                    <img></img>
-                    gh: <input type="text" size="15" onchange="changeName(2, this)"></input>
+                    <img src = "https://avatars.githubusercontent.com/admin"></img>
+                    gh: <input type="text" size="15" onchange="game.changeName(2, this)"></input>
                 </div>
                 <div class="player" id="p4">
-                    <img></img>
-                    gh: <input type="text" size="15" onchange="changeName(3, this)"></input>
+                    <img src = "https://avatars.githubusercontent.com/admin"></img>
+                    gh: <input type="text" size="15" onchange="game.changeName(3, this)"></input>
                 </div>
             </div>
             <div style="clear: both;"></div>
             <div id="msgbox"></div>
             <div style="clear: both;"></div>
-            <div class="button" onclick="wait()">スタート</div>
-            <div class="button" onclick="entry()">エントリー</div>
+            <div class="button" onclick="game.wait()">スタート</div>
+            <div class="button" onclick="game.entry()">エントリー</div>
         </div>
         <script src="./main.js"></script>
     </body>
