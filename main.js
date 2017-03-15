@@ -102,10 +102,6 @@ class Game {
             "<marquee scrollamount='20' scrolldeley='60'>考え中......</marquee>";
         this.players.forEach(p => p.wait());
     }
-
-    changeName(i, input) {
-        this.players[i].updateName(input.value);
-    }
 }
 
 game = new Game();
