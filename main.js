@@ -32,7 +32,7 @@ class Player {
     wait() {
         const player = this;
 
-        function waitLoop() {
+        (function waitLoop() {
             if (!player.gamepad || !player.dom) {
                 // Do nothing
             } else if (player.buttonPressed && player.game.waiting) {
@@ -46,15 +46,13 @@ class Player {
             if (player.game.waiting) {
                 requestAnimationFrame(waitLoop);
             }
-        }
-
-        waitLoop();
+        })();
     }
 
     entry() {
         const player = this;
 
-        function entryLoop() {
+        (function entryLoop() {
             if (!player.gamepad || !player.dom) {
                 // Do nothing
             } else if (player.buttonPressed) {
@@ -66,9 +64,7 @@ class Player {
             if (player.game.entrying) {
                 requestAnimationFrame(entryLoop);
             }
-        }
-
-        entryLoop();
+        })();
      }
 }
 
@@ -81,14 +77,16 @@ class Game {
     entry() {
         this.waiting = false;
         this.entrying = true;
-        document.getElementById("msgbox").innerHTML = "エントリー中";
+        document.getElementById("msgbox").innerHTML =
+            "<marquee scrollamount='20' scrolldeley='60'>エントリー中</marquee>";
         this.players.forEach(p => p.entry());
     }
 
     wait() {
         this.waiting = true;
         this.entrying = false;
-        document.getElementById("msgbox").innerHTML = "ボタンを押してください";
+        document.getElementById("msgbox").innerHTML =
+            "<marquee scrollamount='20' scrolldeley='60'>考え中</marquee>";
         this.players.forEach(p => p.wait());
     }
 
