@@ -8,7 +8,7 @@ class Player {
         this.name = `Player ${no}`;
 
         if (!this.gamepad) {
-            this.dom.style.cssText = "background-color: gray;";
+            this.updateThumnailColor("gray");
         }
     }
 
@@ -24,6 +24,18 @@ class Player {
         return this.gamepad.buttons.map(b => b.pressed).indexOf(true) > -1;
     }
 
+    get thumbnail() {
+        return this.dom.getElementsByTagName("div")[0];
+    }
+
+    updateThumnailColor(color) {
+        if (color) {
+            this.thumbnail.style.cssText = `background-color: ${color}`;
+        } else {
+            this.thumbnail.style.cssText = "";
+        }
+    }
+
     updateName(name) {
         this.name = name;
         this.img.src = `https://avatars.githubusercontent.com/${name||'admin'}`;
@@ -37,10 +49,11 @@ class Player {
                 // Do nothing
             } else if (player.buttonPressed && player.game.waiting) {
                 player.game.waiting = false;
-                player.dom.style.cssText = "background-color: red";
-                document.getElementById("msgbox").innerHTML = `はい ${player.name} さん早かった`;
+                player.updateThumnailColor("GreenYellow");
+                document.getElementById("msgbox").innerHTML =
+                    `<span>はい ${player.name} さん早かった</span>`;
             } else {
-                player.dom.style.cssText = "";
+                player.updateThumnailColor(null);
             }
 
             if (player.game.waiting) {
@@ -56,9 +69,9 @@ class Player {
             if (!player.gamepad || !player.dom) {
                 // Do nothing
             } else if (player.buttonPressed) {
-                player.dom.style.cssText = "background-color: yellow";
+                player.updateThumnailColor("Cyan");
             } else {
-                player.dom.style.cssText = "";
+                player.updateThumnailColor(null);
             }
 
             if (player.game.entrying) {
@@ -78,7 +91,7 @@ class Game {
         this.waiting = false;
         this.entrying = true;
         document.getElementById("msgbox").innerHTML =
-            "<marquee scrollamount='20' scrolldeley='60'>エントリー中</marquee>";
+            "<marquee scrollamount='20' scrolldeley='60'>エントリー中......</marquee>";
         this.players.forEach(p => p.entry());
     }
 
@@ -86,7 +99,7 @@ class Game {
         this.waiting = true;
         this.entrying = false;
         document.getElementById("msgbox").innerHTML =
-            "<marquee scrollamount='20' scrolldeley='60'>考え中</marquee>";
+            "<marquee scrollamount='20' scrolldeley='60'>考え中......</marquee>";
         this.players.forEach(p => p.wait());
     }
 
