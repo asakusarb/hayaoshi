@@ -90,8 +90,35 @@ class Player {
 
 class Game {
     constructor() {
-        this.players = [0, 1, 2, 3].map(i => new Player(i, this));
+        this.players = [];
+        for (var i = 0; i < navigator.getGamepads().length; i++) {
+            if (navigator.getGamepads()[i]) {
+                this.addPlayer(i);
+            }
+        }
         this.enter();
+    }
+
+    addPlayer(index) {
+        $('#players').append(`
+            <div class="col-xs-3 col-sm-3 col-md-3" id="p${index + 1}">
+                <div class="thumbnail">
+                    <img alt="Icon of Player ${index + 1}">
+                    <div class="caption">
+                        <h3>Player ${index + 1}</h3>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">@</span>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="GitHub ID"
+                                   aria-describedby="basic-addon1"
+                                   onchange="game.players[${index}].updateName(this.value)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `);
+        this.players.push(new Player(index, this));
     }
 
     enter() {
