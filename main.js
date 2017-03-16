@@ -91,7 +91,7 @@ class Game {
         this.waiting = false;
         this.entrying = true;
         document.getElementById("msgbox").innerHTML =
-            "<marquee scrollamount='20' scrolldeley='60'>エントリー受付中......</marquee>";
+            "<marquee scrollamount='20' scrolldelay='60'>エントリー受付中......</marquee>";
         this.players.forEach(p => p.entry());
     }
 
@@ -99,7 +99,7 @@ class Game {
         this.waiting = true;
         this.entrying = false;
         document.getElementById("msgbox").innerHTML =
-            "<marquee scrollamount='20' scrolldeley='60'>考え中......</marquee>";
+            "<marquee scrollamount='20' scrolldelay='60'>考え中......</marquee>";
         this.players.forEach(p => p.wait());
     }
 }
