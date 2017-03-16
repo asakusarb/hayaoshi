@@ -62,7 +62,7 @@ class Player {
         })();
     }
 
-    entry() {
+    enter() {
         const player = this;
 
         (function entryLoop() {
@@ -74,7 +74,7 @@ class Player {
                 player.updateThumnailColor(null);
             }
 
-            if (player.game.entrying) {
+            if (player.game.entering) {
                 requestAnimationFrame(entryLoop);
             }
         })();
@@ -84,20 +84,20 @@ class Player {
 class Game {
     constructor() {
         this.players = [0, 1, 2, 3].map(i => new Player(i, this));
-        this.entry();
+        this.enter();
     }
 
-    entry() {
+    enter() {
         this.waiting = false;
-        this.entrying = true;
+        this.entering = true;
         document.getElementById("msgbox").innerHTML =
             "<marquee scrollamount='20' scrolldelay='60'>エントリー受付中......</marquee>";
-        this.players.forEach(p => p.entry());
+        this.players.forEach(p => p.enter());
     }
 
     wait() {
         this.waiting = true;
-        this.entrying = false;
+        this.entering = false;
         document.getElementById("msgbox").innerHTML =
             "<marquee scrollamount='20' scrolldelay='60'>考え中......</marquee>";
         this.players.forEach(p => p.wait());
