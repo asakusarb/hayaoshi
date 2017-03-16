@@ -10,6 +10,13 @@ class Player {
         if (!this.gamepad) {
             this.updateThumnailColor("gray");
         }
+
+        this.img.onerror = function(e) {
+            const name = e.target.currentSrc.split("/").pop();
+            e.srcElement.src = `https://avatars.githubusercontent.com/${name}`;
+        };
+
+        this.img.src="img/admin";
     }
 
     get gamepad() {
@@ -38,7 +45,7 @@ class Player {
 
     updateName(name) {
         this.name = name;
-        this.img.src = `https://avatars.githubusercontent.com/${name||'admin'}`;
+        this.img.src = `img/${name||'admin'}`;
     }
 
     wait() {
