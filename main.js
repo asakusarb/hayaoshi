@@ -11,20 +11,24 @@ class Player {
             this.updateThumnailColor("gray");
         }
 
-        this.img.onerror = function(e) {
+        this.icon.onerror = function(e) {
             const name = e.target.currentSrc.split("/").pop();
             e.srcElement.src = `https://avatars.githubusercontent.com/${name}`;
         };
 
-        this.img.src="img/admin";
+        this.icon.src="img/admin";
     }
 
     get gamepad() {
         return navigator.getGamepads()[this.index];
     }
 
-    get img() {
-        return this.dom.getElementsByTagName("img")[0];
+    get icon() {
+        return this.dom.getElementsByClassName("icon")[0];
+    }
+
+    get jail() {
+        return this.dom.getElementsByClassName("jail")[0];
     }
 
     get buttonPressed() {
@@ -39,10 +43,6 @@ class Player {
         return this.thumbnail.getElementsByClassName("score")[0];
     }
 
-    get status() {
-        return this.thumbnail.getElementsByClassName("status")[0];
-    }
-
     updateThumnailColor(color) {
         if (color) {
             this.thumbnail.style.cssText = `background-color: ${color}`;
@@ -53,7 +53,7 @@ class Player {
 
     updateName(name) {
         this.name = name;
-        this.img.src = `img/${name||'admin'}`;
+        this.icon.src = `img/${name||'admin'}`;
     }
 
     takeAnswerable() {
@@ -69,12 +69,12 @@ class Player {
 
     rest() {
         this.penalty = true;
-        this.status.innerHTML = "<p>お手つき</p>";
+        this.jail.style="";
     }
 
     fulfillRest() {
         this.penalty = false;
-        this.status.innerHTML = "　";
+        this.jail.style="display: none;";
     }
 
     wait() {
