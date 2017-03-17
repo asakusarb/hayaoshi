@@ -3,7 +3,7 @@
     height: 100%;
 }
 
-.well > marquee {
+#msgbox > marquee {
     font-size: 60px;
 }
 

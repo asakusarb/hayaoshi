@@ -35,6 +35,14 @@ class Player {
         return this.dom.getElementsByTagName("div")[0];
     }
 
+    get score() {
+        return this.thumbnail.getElementsByClassName("score")[0];
+    }
+
+    get status() {
+        return this.thumbnail.getElementsByClassName("status")[0];
+    }
+
     updateThumnailColor(color) {
         if (color) {
             this.thumbnail.style.cssText = `background-color: ${color}`;
@@ -48,23 +56,43 @@ class Player {
         this.img.src = `img/${name||'admin'}`;
     }
 
+    takeAnswerable() {
+        this.game.enableScoring(this);
+        this.updateThumnailColor("GreenYellow");
+    }
+
+    succScore() {
+        const score = this.score;
+        const currentScore = parseInt(score.innerHTML.split(" ").pop());
+        score.innerHTML = `score: ${currentScore + 1}`;
+    }
+
+    rest() {
+        this.penalty = true;
+        this.status.innerHTML = "<p>お手つき</p>";
+    }
+
+    fulfillRest() {
+        this.penalty = false;
+        this.status.innerHTML = "　";
+    }
+
     wait() {
         const player = this;
 
         (function waitLoop() {
             if (!player.gamepad || !player.dom) {
                 // Do nothing
-            } else if (player.buttonPressed && player.game.waiting) {
-                player.game.waiting = false;
-                player.updateThumnailColor("GreenYellow");
-                document.getElementById("msgbox").innerHTML =
-                    `<span>はい ${player.name} さん早かった</span>`;
+            } else if (player.buttonPressed && player.game.waiting && !player.penalty) {
+                player.takeAnswerable();
             } else {
                 player.updateThumnailColor(null);
             }
 
             if (player.game.waiting) {
                 requestAnimationFrame(waitLoop);
+            } else {
+                player.fulfillRest();
             }
         })();
     }
@@ -108,6 +136,33 @@ class Game {
         document.getElementById("msgbox").innerHTML =
             "<marquee scrollamount='20' scrolldelay='60'>考え中......</marquee>";
         this.players.forEach(p => p.wait());
+    }
+
+    enableScoring(player) {
+        this.waiting = false;
+        this.answering = player;
+        document.getElementById("msgbox").innerHTML =
+            `<span>はい ${this.answering.name} さん早かった</span>`;
+        document.getElementById("exactry-button").disabled = false;
+        document.getElementById("inexactry-button").disabled = false;
+        document.getElementById("start-button").disabled = true;
+    }
+
+    disableScoring() {
+        this.answering = null;
+        document.getElementById("exactry-button").disabled = true;
+        document.getElementById("inexactry-button").disabled = true;
+        document.getElementById("start-button").disabled = false;
+    }
+
+    exactry() {
+        this.answering.succScore();
+        this.disableScoring();
+    }
+
+    inexactry() {
+        this.answering.rest();
+        this.disableScoring();
     }
 }
 
