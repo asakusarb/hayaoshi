@@ -125,24 +125,25 @@ class Game {
     enter() {
         this.waiting = false;
         this.entering = true;
-        document.getElementById("msgbox").innerHTML =
-            "<marquee scrollamount='20' scrolldelay='60'>エントリー受付中......</marquee>";
+        this.setMessage("<marquee scrollamount='20' scrolldelay='60'>エントリー受付中......</marquee>");
         this.players.forEach(p => p.enter());
     }
 
     wait() {
         this.waiting = true;
         this.entering = false;
-        document.getElementById("msgbox").innerHTML =
-            "<marquee scrollamount='20' scrolldelay='60'>考え中......</marquee>";
+        this.setMessage("<marquee scrollamount='20' scrolldelay='60'>考え中......</marquee>");
         this.players.forEach(p => p.wait());
+    }
+
+    setMessage(msg) {
+        document.getElementById("msgbox").innerHTML = msg;
     }
 
     enableScoring(player) {
         this.waiting = false;
         this.answering = player;
-        document.getElementById("msgbox").innerHTML =
-            `<span>はい ${this.answering.name} さん早かった</span>`;
+        this.setMessage(`<span>はい ${this.answering.name} さん早かった</span>`);
         document.getElementById("exactry-button").disabled = false;
         document.getElementById("inexactry-button").disabled = false;
         document.getElementById("start-button").disabled = true;
@@ -157,11 +158,13 @@ class Game {
 
     exactry() {
         this.answering.succScore();
+        this.setMessage("<span>正解！！</span>");
         this.disableScoring();
     }
 
     inexactry() {
         this.answering.rest();
+        this.setMessage("<span>残念！！</span>");
         this.disableScoring();
     }
 }

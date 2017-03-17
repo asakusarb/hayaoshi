@@ -3,14 +3,26 @@
     height: 100%;
 }
 
+#msgbox {
+    text-align: center;
+}
+
 #msgbox > marquee {
-    font-size: 60px;
+    font-size: 6vw;
 }
 
 .well > span {
-    font-size: 60px;
+    font-size: 6vw;
 }
 
 #controller {
     margin-left: 30px;
+}
+
+.score {
+    font-size: 3vw;
+}
+
+.large > * {
+    font-size: 2vw;
 }
