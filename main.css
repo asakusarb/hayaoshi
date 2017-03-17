@@ -1,6 +1,11 @@
 .thumbnail > img {
     width: 100%;
-    height: 100%;
+}
+
+.thumbnail > .jail {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 #msgbox {
@@ -25,4 +30,8 @@
 
 .large > * {
     font-size: 2vw;
+}
+
+.relative {
+    position: relative;
 }
