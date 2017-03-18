@@ -133,9 +133,6 @@ class Game {
         this.waiting = true;
         this.entering = false;
         this.setMessage("<marquee scrollamount='20' scrolldelay='60'>考え中......</marquee>");
-        const ticktack = document.getElementById("ticktack");
-        ticktack.volume = 0.3;
-        ticktack.play();
         this.players.forEach(p => p.wait());
     }
 
@@ -146,7 +143,6 @@ class Game {
     enableScoring(player) {
         this.waiting = false;
         this.answering = player;
-        document.getElementById("ticktack").pause();
         document.getElementById("hai").play();
         this.setMessage(`<span>はい ${this.answering.name} さん早かった</span>`);
         document.getElementById("exactry-button").disabled = false;
