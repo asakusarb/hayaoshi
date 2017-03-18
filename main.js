@@ -133,7 +133,9 @@ class Game {
         this.waiting = true;
         this.entering = false;
         this.setMessage("<marquee scrollamount='20' scrolldelay='60'>考え中......</marquee>");
-        document.getElementById("ticktack").play();
+        const ticktack = document.getElementById("ticktack");
+        ticktack.volume = 0.3;
+        ticktack.play();
         this.players.forEach(p => p.wait());
     }
 
@@ -145,7 +147,7 @@ class Game {
         this.waiting = false;
         this.answering = player;
         document.getElementById("ticktack").pause();
-        document.getElementById("pingpong2").play();
+        document.getElementById("hai").play();
         this.setMessage(`<span>はい ${this.answering.name} さん早かった</span>`);
         document.getElementById("exactry-button").disabled = false;
         document.getElementById("inexactry-button").disabled = false;
@@ -163,7 +165,7 @@ class Game {
         this.answering.succScore();
         this.setMessage("<span>正解！！</span>");
         this.disableScoring();
-        document.getElementById("pingpong").play();
+        document.getElementById("pingpong2").play();
     }
 
     inexactry() {
