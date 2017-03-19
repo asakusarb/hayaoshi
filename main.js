@@ -143,6 +143,7 @@ class Game {
     enableScoring(player) {
         this.waiting = false;
         this.answering = player;
+        document.getElementById("hai").play();
         this.setMessage(`<span>はい ${this.answering.name} さん早かった</span>`);
         document.getElementById("exactry-button").disabled = false;
         document.getElementById("inexactry-button").disabled = false;
@@ -160,12 +161,14 @@ class Game {
         this.answering.succScore();
         this.setMessage("<span>正解！！</span>");
         this.disableScoring();
+        document.getElementById("pingpong2").play();
     }
 
     inexactry() {
         this.answering.rest();
         this.setMessage("<span>残念！！</span>");
         this.disableScoring();
+        document.getElementById("buzzer").play();
     }
 }
 
