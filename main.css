@@ -32,6 +32,11 @@
     font-size: 2vw;
 }
 
+.large > .input-group-addon {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
 .relative {
     position: relative;
 }
