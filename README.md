@@ -23,3 +23,9 @@
 ### 終了
 
 1. `index.html` を閉じてください
+
+## Electron 版の起動
+
+1. `npm install`
+1. `npx electron .`
+1. Ctrl-C で終了
