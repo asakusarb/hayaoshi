@@ -8,7 +8,7 @@ class Player {
         this.name = `Player ${no}`;
 
         if (!this.gamepad) {
-            this.updateThumnailColor("gray");
+            this.updateThumbnailColor("gray");
         }
 
         this.icon.onerror = function(e) {
@@ -43,7 +43,7 @@ class Player {
         return this.thumbnail.getElementsByClassName("score")[0];
     }
 
-    updateThumnailColor(color) {
+    updateThumbnailColor(color) {
         if (color) {
             this.thumbnail.style.cssText = `background-color: ${color}`;
         } else {
@@ -58,7 +58,7 @@ class Player {
 
     takeAnswerable() {
         this.game.enableScoring(this);
-        this.updateThumnailColor("GreenYellow");
+        this.updateThumbnailColor("GreenYellow");
     }
 
     succScore() {
@@ -86,7 +86,7 @@ class Player {
             } else if (player.buttonPressed && player.game.waiting && !player.penalty) {
                 player.takeAnswerable();
             } else {
-                player.updateThumnailColor(null);
+                player.updateThumbnailColor(null);
             }
 
             if (player.game.waiting) {
@@ -104,9 +104,9 @@ class Player {
             if (!player.gamepad || !player.dom) {
                 // Do nothing
             } else if (player.buttonPressed) {
-                player.updateThumnailColor("Cyan");
+                player.updateThumbnailColor("Cyan");
             } else {
-                player.updateThumnailColor(null);
+                player.updateThumbnailColor(null);
             }
 
             if (player.game.entering) {
@@ -145,26 +145,26 @@ class Game {
         this.answering = player;
         document.getElementById("hai").play();
         this.setMessage(`<span>はい ${this.answering.name} さん早かった</span>`);
-        document.getElementById("exactry-button").disabled = false;
-        document.getElementById("inexactry-button").disabled = false;
+        document.getElementById("exactly-button").disabled = false;
+        document.getElementById("inexactly-button").disabled = false;
         document.getElementById("start-button").disabled = true;
     }
 
     disableScoring() {
         this.answering = null;
-        document.getElementById("exactry-button").disabled = true;
-        document.getElementById("inexactry-button").disabled = true;
+        document.getElementById("exactly-button").disabled = true;
+        document.getElementById("inexactly-button").disabled = true;
         document.getElementById("start-button").disabled = false;
     }
 
-    exactry() {
+    exactly() {
         this.answering.succScore();
         this.setMessage("<span>正解！！</span>");
         this.disableScoring();
         document.getElementById("pingpong2").play();
     }
 
-    inexactry() {
+    inexactly() {
         this.answering.rest();
         this.setMessage("<span>残念！！</span>");
         this.disableScoring();
