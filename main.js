@@ -145,26 +145,26 @@ class Game {
         this.answering = player;
         document.getElementById("hai").play();
         this.setMessage(`<span>はい ${this.answering.name} さん早かった</span>`);
-        document.getElementById("exactly-button").disabled = false;
-        document.getElementById("inexactly-button").disabled = false;
+        document.getElementById("correct-button").disabled = false;
+        document.getElementById("incorrect-button").disabled = false;
         document.getElementById("start-button").disabled = true;
     }
 
     disableScoring() {
         this.answering = null;
-        document.getElementById("exactly-button").disabled = true;
-        document.getElementById("inexactly-button").disabled = true;
+        document.getElementById("correct-button").disabled = true;
+        document.getElementById("incorrect-button").disabled = true;
         document.getElementById("start-button").disabled = false;
     }
 
-    exactly() {
+    correct() {
         this.answering.succScore();
         this.setMessage("<span>正解！！</span>");
         this.disableScoring();
         document.getElementById("pingpong2").play();
     }
 
-    inexactly() {
+    incorrect() {
         this.answering.rest();
         this.setMessage("<span>残念！！</span>");
         this.disableScoring();
