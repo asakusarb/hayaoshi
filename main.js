@@ -172,4 +172,14 @@ class Game {
     }
 }
 
+document.addEventListener('keydown', event => {
+    if (event.key === 's' && event.ctrlKey) {
+        game.wait();
+    } else if (event.key === 'o' && event.ctrlKey) {
+        game.answering && game.correct();
+    } else if (event.key === 'x' && event.ctrlKey) {
+        game.answering && game.incorrect();
+    }
+});
+
 game = new Game();
